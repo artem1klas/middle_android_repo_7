@@ -16,7 +16,7 @@ object SampleProducts {
             "Телефон",
             "Телефон с отличной камерой и быстрой зарядкой",
             999.99,
-            "https://cdn.pixabay.com/photo/2020/09/02/03/26/iphone-5537230_1280.jpg"
+            "https://avatars.mds.yandex.net/i?id=b7d5d54965f3a714ad061d64346a880215f81814-4598847-images-thumbs&n=13"
         ),
         Product(
             2,
