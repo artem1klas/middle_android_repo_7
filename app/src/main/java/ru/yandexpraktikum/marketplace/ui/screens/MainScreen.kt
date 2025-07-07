@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -37,7 +36,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -82,7 +80,6 @@ fun MainScreen(onProductClick: (Int) -> Unit) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            val searchBarDescription = stringResource(R.string.searchbar_description)
             SearchBar(
                 query = searchQuery,
                 onQueryChange = { searchQuery = it },
@@ -98,7 +95,7 @@ fun MainScreen(onProductClick: (Int) -> Unit) {
                 placeholder = {
                     Text(
                         modifier = Modifier.semantics {
-                            contentDescription = searchBarDescription
+                            contentDescription = context.getString(R.string.searchbar_description)
                         },
                         text = stringResource(R.string.search_products),
                     )
@@ -144,19 +141,23 @@ fun ProductCard(
     onAddToCart: () -> Unit
 ) {
     val actionLabel = stringResource(R.string.add_product_to_cart, product.name)
+    val listOfCustomsActions = remember {
+        listOf(
+            CustomAccessibilityAction(
+                label = actionLabel,
+                action = {
+                    onAddToCart()
+                    true
+                }
+            )
+        )
+    }
+
     Card(
         modifier = modifier
             .fillMaxWidth()
             .semantics {
-                customActions = listOf(
-                    CustomAccessibilityAction(
-                        label = actionLabel,
-                        action = {
-                            onAddToCart()
-                                true
-                        }
-                    )
-                )
+                customActions = listOfCustomsActions
             }
     ) {
         Column {
@@ -200,7 +201,6 @@ fun ProductCard(
                 Icon(
                     Icons.Default.ShoppingCart,
                     contentDescription = stringResource(R.string.add_to_cart),
-                    tint = Color(0xFFAAAAAA),
                     modifier = Modifier
                         .clickable(
                             onClickLabel = actionDescription
